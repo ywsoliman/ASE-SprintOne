@@ -7,7 +7,6 @@ public class Admin {
 	}
 	public void verifyDriver(Driver driver) {
 		driver.setVerified(true);
-		system.update(driver);
 	}
 	public void suspend(Member member) {
 		member.setSuspended(true);
