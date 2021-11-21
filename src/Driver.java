@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 
-public class Driver extends Member {
+public class Driver extends Member implements Observer {
 	
 	String nationalID;
 	String drivingLicense;
 	boolean verified;
 	//float rating;
-	//ArrayList<String> favoriteAreas = new ArrayList<String>();
+	ArrayList<String> favoriteAreas = new ArrayList<String>();
 	
 	
 	public Driver(String username, String password, String email, String mobileNumber, String nationalID,
@@ -41,6 +41,12 @@ public class Driver extends Member {
 		return "Driver [nationalID=" + nationalID + ", drivingLicense=" + drivingLicense + ", verified=" + verified
 				+ ", username=" + username + ", password=" + password + ", email=" + email + ", mobileNumber="
 				+ mobileNumber + ", suspended=" + suspended + "]";
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	
