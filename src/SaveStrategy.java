@@ -5,5 +5,4 @@ public interface SaveStrategy {
 	public ArrayList<Driver> retrieveDrivers();
 	public ArrayList<Driver> retrievePendingRegistrations();
 	public ArrayList<User> retrieveUsers();
-	public void update(Driver driver);
 }
