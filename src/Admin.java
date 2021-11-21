@@ -1,21 +1,20 @@
 
 public class Admin {
+	AppSystem system;
 	
-	AppSystem s;
-	
-	public void suspend(iMember m) {
-		
+	public Admin(AppSystem system) {
+		this.system = system;
 	}
-	
-	public boolean verify(Member m) {
-		if (m instanceof Driver) {
-			// Condition
-			return true;
+	public void verifyDriver(Driver driver) {
+		driver.setVerified(true);
+		system.update(driver);
+	}
+	public void suspend(Member member) {
+		member.setSuspended(true);
+	}
+	public void listPendingRegistrations() {
+		for(Driver driver : system.retrievePendingRegistrations()) {
+			System.out.println(driver.toString());
 		}
-		else if (m instanceof User)
-			return true;
-		
-		return false;
 	}
-	
 }
