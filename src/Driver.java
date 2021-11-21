@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Driver extends Member  {
+public class Driver extends Member implements Observer {
 	
 	String nationalID;
 	String drivingLicense;
@@ -43,8 +43,11 @@ public class Driver extends Member  {
 				+ mobileNumber + ", suspended=" + suspended + "]";
 	}
 
-	
-
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

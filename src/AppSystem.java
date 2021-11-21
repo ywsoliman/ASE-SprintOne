@@ -34,7 +34,7 @@ public class AppSystem {
 		system.save(driver);
 		admin.listPendingRegistrations();
 		admin.verifyDriver((Driver) driver);
-		//admin.suspend(driver);
+		admin.suspend(driver);
 		admin.listPendingRegistrations();
 	
 		driverLogin.login("abcd", "abcd");
