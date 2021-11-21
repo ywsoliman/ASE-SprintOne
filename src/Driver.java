@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 
-public class Driver extends Member {
+public class Driver extends Member  {
 	
 	String nationalID;
 	String drivingLicense;
 	boolean verified;
 	//float rating;
-	//ArrayList<String> favoriteAreas = new ArrayList<String>();
+	ArrayList<String> favoriteAreas = new ArrayList<String>();
 	
 	
 	public Driver(String username, String password, String email, String mobileNumber, String nationalID,
@@ -42,6 +42,9 @@ public class Driver extends Member {
 				+ ", username=" + username + ", password=" + password + ", email=" + email + ", mobileNumber="
 				+ mobileNumber + ", suspended=" + suspended + "]";
 	}
+
+	
+
 	
 	
 }

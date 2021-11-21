@@ -5,7 +5,6 @@ public class ArrayStrategy implements SaveStrategy{
 	AppSystem system;
 	ArrayList<User> users = new ArrayList<User>();
 	ArrayList<Driver> drivers = new ArrayList<Driver>();
-	ArrayList<Driver> pendingRegistrations = new ArrayList<Driver>();
 
 	public ArrayStrategy(AppSystem system) {
 		this.system = system;
@@ -14,7 +13,7 @@ public class ArrayStrategy implements SaveStrategy{
 	@Override
 	public void save(Member member) {
 		if (member instanceof Driver) {
-			system.retrievePendingRegistrations().add((Driver) member);
+			system.retrieveDrivers().add((Driver) member);
 		}
 		else if (member instanceof User) {
 			system.retrieveUsers().add((User) member);
@@ -28,18 +27,18 @@ public class ArrayStrategy implements SaveStrategy{
 
 	@Override
 	public ArrayList<Driver> retrievePendingRegistrations() {
+		ArrayList<Driver> pendingRegistrations = new ArrayList<Driver>();
+		for(Driver driver : drivers) {
+			if(!driver.verified) {
+				pendingRegistrations.add(driver);
+			}
+		}
 		return pendingRegistrations;
 	}
 
 	@Override
 	public ArrayList<User> retrieveUsers() {
 		return users;
-	}
-
-	@Override
-	public void update(Driver driver) {
-		system.retrievePendingRegistrations().remove(driver);
-		system.retrieveDrivers().add(driver);
 	}
 
 }
