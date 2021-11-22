@@ -1,6 +1,6 @@
 
 public interface Observable {
-	public void subscribe(Observer o);
+	public void subscribe(String source, String destination, AppSystem system);
 	public void unsubscribe(Observer o);
-	public void notifyDrivers(Ride ride);
+	public void requestRide();
 }

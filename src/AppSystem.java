@@ -34,10 +34,15 @@ public class AppSystem {
 		system.save(driver);
 		admin.listPendingRegistrations();
 		admin.verifyDriver((Driver) driver);
-		admin.suspend(driver);
-		admin.listPendingRegistrations();
+	//	admin.suspend(driver);
+	//	admin.listPendingRegistrations();
 	
 		driverLogin.login("abcd", "abcd");
+		
+		
+		Member user = new User("abcd", "abcd", "abcd", "abcd");
+		system.save(user);
+//		driver.a
 	}
 
 }
