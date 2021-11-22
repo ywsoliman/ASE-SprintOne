@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Driver extends Member implements Observer {
 	
@@ -6,8 +7,11 @@ public class Driver extends Member implements Observer {
 	String drivingLicense;
 	boolean verified;
 	User user;
+	double averageRating;
 	//float rating;
 	ArrayList<String> favoriteAreas = new ArrayList<String>();
+	ArrayList<User> nearbyRequests = new ArrayList<User>();
+	HashMap<String, Double> userRatings = new HashMap<String, Double>();
 	
 
 	public Driver(String username, String password, String email, String mobileNumber, String nationalID,
@@ -16,9 +20,29 @@ public class Driver extends Member implements Observer {
 		this.nationalID = nationalID;
 		this.drivingLicense = drivingLicense;
 		this.verified = false;
+		this.averageRating = 0.0;
 		//ride.subscribe(this);
 	}
 	
+
+	public HashMap<String, Double> getUserRatings() {
+		return userRatings;
+	}
+
+
+	public ArrayList<User> getNearbyRequests() {
+		return nearbyRequests;
+	}
+
+
+	public double getAverageRating() {
+		return averageRating;
+	}
+
+	public void setAverageRating(double averageRating) {
+		this.averageRating = averageRating;
+	}
+
 	public String getNationalID() {
 		return nationalID;
 	}
@@ -43,6 +67,16 @@ public class Driver extends Member implements Observer {
 	public ArrayList<String> getFavoriteAreas() {
 		return favoriteAreas;
 	}
+	
+	public void makeOffer(User user, double price) {
+		user.getOffers().put(this, price);
+	}
+	
+	public void listUserRatings() {
+		for(HashMap.Entry<String, Double> entry : userRatings.entrySet()) {
+			System.out.println("User: " + entry.getKey() + " Rating:  " + entry.getValue());
+		}
+	}
 
 	@Override
 	public String toString() {
@@ -58,7 +92,7 @@ public class Driver extends Member implements Observer {
 	@Override
 	public void update(User user) {
 		this.user = user;
-		
+		nearbyRequests.add(user);
 	}
 	
 	
