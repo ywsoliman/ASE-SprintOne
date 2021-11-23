@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Menu {
@@ -5,12 +6,13 @@ public class Menu {
 	Scanner sc = new Scanner(System.in);
 	
 	AppSystem system = new AppSystem();
+	Admin admin = new Admin(system);
 	
 	Login driverLogin = new DriverLogin(system);
 	Login userLogin = new UserLogin(system);
 	
-	Member user;
-	Member driver;
+	User user;
+	Driver driver;
 	
 	public Menu() {
 		menu();
@@ -25,7 +27,8 @@ public class Menu {
 			System.out.println("Welcome to Uber");
 			System.out.println("1- Login");
 			System.out.println("2- Signup");
-			System.out.println("3- Exit");
+			System.out.println("3- Login as Admin");
+			System.out.println("4- Exit");
 			
 			int input;
 			input = sc.nextInt();
@@ -55,11 +58,14 @@ public class Menu {
 					
 					if (type == 1) {
 						userLogin.login(username, password);
-						userMenu();
+						if (!user.isSuspended())
+							userMenu();
 					}
 					else if (type == 2) {
+						
 						driverLogin.login(username, password);
-						driverMenu();
+						if (driver.isVerified() && !driver.isSuspended())
+							driverMenu();
 					}
 				}
 				
@@ -81,7 +87,7 @@ public class Menu {
 						
 						System.out.print("Enter National ID: ");
 						nationalID = sc.nextLine();
-						System.out.print("Enter drivingLicense ID: ");
+						System.out.print("Enter drivingLicense: ");
 						drivingLicense = sc.nextLine();
 						
 						driver = new Driver(username, password, email, mobileNumber, nationalID, drivingLicense);
@@ -90,9 +96,21 @@ public class Menu {
 					System.out.println("Account signed up successfuly!");
 					
 				}
-				
 			}
-			else if (input == 3)
+			else if (input == 3) {
+				sc.nextLine();
+				String adminUser, adminPass;
+				System.out.print("Username: ");
+				adminUser = sc.nextLine();
+				System.out.print("Password: ");
+				adminPass = sc.nextLine();
+				
+				if (adminUser.equals("admin") && adminPass.equals("admin")) {
+					System.out.println("Logged in successfuly.");
+					adminMenu();
+				}
+			}
+			else if (input == 4)
 				break;
 			else
 				System.out.println("Enter a valid number.");
@@ -103,13 +121,47 @@ public class Menu {
 	public void userMenu() {
 		while (true) {
 			System.out.println("1- Request Ride");
-			System.out.println("2- Back");
+			System.out.println("2- List Offers");
+			System.out.println("3- Back");
 			
 			int input = sc.nextInt();
 			if (input == 1) {
 				
+				sc.nextLine();
+				
+				String src, dest;
+				System.out.println("Enter source: ");
+				src = sc.nextLine();
+				System.out.println("Enter destination: ");
+				dest = sc.nextLine();
+				
+				user.subscribe(src, dest, system);
+				user.requestRide();
+				
 			}
-			else if (input == 2)
+			else if (input == 2) {
+				user.listOffers();
+				System.out.println("Do you want to accept one of these offers?");
+				System.out.println("1- Yes");
+				System.out.println("2- No");
+				int choice = sc.nextInt();
+				sc.nextLine();
+				
+				
+				if (choice == 1) {
+					System.out.println("Enter driver username: ");
+					String acceptedDriver = sc.nextLine();
+					for(HashMap.Entry<Driver, Double> entry : user.getOffers().entrySet()) {
+						if (entry.getKey().getUsername().equals(acceptedDriver)) {
+							user.acceptOffer(entry.getKey());
+							break;
+						}
+					}
+				}
+				else if (choice == 2)
+					continue;
+			}
+			else if (input == 3)
 				break;
 			else
 				System.out.println("Please enter a valid number.");
@@ -128,10 +180,34 @@ public class Menu {
 			sc.nextLine();
 			
 			if (input == 1) {
-				
+				System.out.print("Enter your favorite area: ");
+				String area = sc.nextLine();
+				driver.addFavArea(area);
 			}
 			else if (input == 2) {
+				for (int i = 0; i < driver.getNearbyRequests().size(); i++) {
+					System.out.println(i + 1 + ": " + driver.getNearbyRequests().get(i).getUsername());
+				}
+				System.out.println("Do you want to make an offer to one of these requests?");
+				System.out.println("1- Yes");
+				System.out.println("2- No");
+				int choice = sc.nextInt();
+				sc.nextLine();
 				
+				if (choice == 1) {
+					System.out.print("Enter the number of the user you want to make an offer to: ");
+					int offerTo = sc.nextInt();
+					System.out.print("Enter price: ");
+					double price = sc.nextDouble();
+					sc.nextLine();
+					
+					driver.makeOffer(driver.getNearbyRequests().get(offerTo - 1), price);
+				}
+				else if (choice == 2)
+					continue;
+			}
+			else if (input == 3) {
+				driver.listUserRatings();
 			}
 			else if (input == 4)
 				break;
@@ -140,6 +216,66 @@ public class Menu {
 			
 		}
 		
+	}
+	
+	public void adminMenu() {
+		while (true) {
+			System.out.println("1- Suspend");
+			System.out.println("2- Verify Driver");
+			System.out.println("3- List Pending Registrations");
+			System.out.println("4- Back");
+			
+			int input = sc.nextInt();
+			sc.nextLine();
+			
+			if (input == 1) {
+				System.out.println("1- Suspend User");
+				System.out.println("2- Suspend Driver");
+				
+				int sus = sc.nextInt();
+				sc.nextLine();
+				
+				System.out.println("Enter username to suspend");
+				String usernameSus = sc.nextLine();
+
+				if (sus == 1) {
+					for (User user : system.retrieveUsers()) {
+						if (user.getUsername().equals(usernameSus)) {
+							admin.suspend(user);
+							break;
+						}
+					}
+				}
+				else if (sus == 2) {
+					for (Driver driver : system.retrieveDrivers()) {
+						if (driver.getUsername().equals(usernameSus)) {
+							admin.suspend(driver);
+							break;
+						}
+					}
+				}
+			}
+			
+			else if (input == 2) {
+				System.out.println("Enter username to verify: ");
+				String driverVerify = sc.nextLine();
+				
+				for (Driver driver : system.retrieveDrivers()) {
+					if (driver.getUsername().equals(driverVerify)) {
+						admin.verifyDriver(driver);
+						break;
+					}
+				}
+			}
+			else if (input == 3) {
+				admin.listPendingRegistrations();
+			}
+			else if (input == 4)
+				break;
+			else
+				System.out.println("Please enter a valid number.");
+			
+		}
 	}
 	
 }
