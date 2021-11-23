@@ -48,8 +48,11 @@ public class Menu {
 				while (true) {
 					if (type == 1 || type == 2)
 						break;
-					else
+					else {
 						System.out.println("Please enter a valid number.");
+						type = sc.nextInt();
+					}
+						
 				}
 				
 				sc.nextLine();
