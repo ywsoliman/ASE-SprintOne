@@ -19,7 +19,7 @@ public class User extends Member implements Observable {
 		
 		for(Driver driver : system.retrieveDrivers()) {
 			
-			if(driver.favoriteAreas.contains(source) && !driver.isSuspended() && driver.isVerified()) {
+			if(driver.getFavoriteAreas().contains(source) && !driver.isSuspended() && driver.isVerified()) {
 				interestedDrivers.add(driver);
 			}
 		}
@@ -27,18 +27,24 @@ public class User extends Member implements Observable {
 	
 	
 	public void acceptOffer(Driver driver) {
+		// Working until here.
 		System.out.println("Please rate the driver from 1 to 5");
+		
 		Scanner input = new Scanner(System.in);
 		double rating = input.nextDouble();
+		input.nextLine();
+		
 		while(rating < 1 || rating > 5) {
 			System.out.println("Invalid rating. Please enter a number from 1 to 5.");
 			rating = input.nextDouble();
+			input.nextLine();
 		}
-		input.close();
+		
 		rateDriver(driver, rating);
 		for (Driver d : interestedDrivers) {
 			d.getNearbyRequests().remove(this);
 		}
+		
 		interestedDrivers.clear();
 	}
 	
