@@ -15,7 +15,13 @@ public class Menu {
 	Driver driver;
 	
 	public Menu() {
-		menu();
+		try {
+			menu();
+		}
+		catch(Exception e) {
+			System.out.println("Unknown error occured. Restarting application.");
+			menu();
+		}
 	}
 	
 	public void menu() {
@@ -57,15 +63,24 @@ public class Menu {
 				if (input == 1) {
 					
 					if (type == 1) {
-						userLogin.login(username, password);
-						if (!user.isSuspended())
-							userMenu();
+						try {
+							user = (User) userLogin.login(username, password);
+							if (!user.isSuspended())
+								userMenu();
+						}
+						catch(Exception e) {
+							
+						}	
 					}
 					else if (type == 2) {
-						
-						driverLogin.login(username, password);
-						if (driver.isVerified() && !driver.isSuspended())
-							driverMenu();
+						try {
+							driver = (Driver) driverLogin.login(username, password);
+							if (driver.isVerified() && !driver.isSuspended())
+								driverMenu();
+						}
+						catch(Exception e) {
+							
+						}	
 					}
 				}
 				
