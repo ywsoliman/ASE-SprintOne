@@ -11,13 +11,11 @@ public class ArrayStrategy implements SaveStrategy{
 	}
 
 	@Override
-	public void save(Member member) {
-		if (member instanceof Driver) {
-			system.retrieveDrivers().add((Driver) member);
-		}
-		else if (member instanceof User) {
-			system.retrieveUsers().add((User) member);
-		}
+	public void saveUser(User user) {
+		system.retrieveUsers().add(user);
+	}
+	public void saveDriver(Driver driver) {
+		system.retrieveDrivers().add(driver);
 	}
 
 	@Override

@@ -97,7 +97,7 @@ public class Menu {
 					
 					if (type == 1) {
 						user = new User(username, password, email, mobileNumber);
-						system.save(user);
+						system.saveUser(user);
 					}
 					
 					if (type == 2) {
@@ -109,7 +109,7 @@ public class Menu {
 						drivingLicense = sc.nextLine();
 						
 						driver = new Driver(username, password, email, mobileNumber, nationalID, drivingLicense);
-						system.save(driver);
+						system.saveDriver(driver);
 					}
 					System.out.println("Account signed up successfuly!");
 					
@@ -140,7 +140,7 @@ public class Menu {
 		while (true) {
 			System.out.println("1- Request Ride");
 			System.out.println("2- List Offers");
-			System.out.println("3- Back");
+			System.out.println("3- Logout");
 			
 			int input = sc.nextInt();
 			if (input == 1) {
@@ -192,7 +192,7 @@ public class Menu {
 			System.out.println("1- Add favorite area");
 			System.out.println("2- List all available rides");
 			System.out.println("3- List user ratings");
-			System.out.println("4- Back");
+			System.out.println("4- Logout");
 			
 			int input = sc.nextInt();
 			sc.nextLine();
@@ -206,23 +206,29 @@ public class Menu {
 				for (int i = 0; i < driver.getNearbyRequests().size(); i++) {
 					System.out.println(i + 1 + ": " + driver.getNearbyRequests().get(i).getUsername());
 				}
-				System.out.println("Do you want to make an offer to one of these requests?");
-				System.out.println("1- Yes");
-				System.out.println("2- No");
-				int choice = sc.nextInt();
-				sc.nextLine();
-				
-				if (choice == 1) {
-					System.out.print("Enter the number of the user you want to make an offer to: ");
-					int offerTo = sc.nextInt();
-					System.out.print("Enter price: ");
-					double price = sc.nextDouble();
+				if (driver.getNearbyRequests().size() > 0) {
+
+					System.out.println("Do you want to make an offer to one of these requests?");
+					System.out.println("1- Yes");
+					System.out.println("2- No");
+					int choice = sc.nextInt();
 					sc.nextLine();
-					
-					driver.makeOffer(driver.getNearbyRequests().get(offerTo - 1), price);
+
+					if (choice == 1) {
+						System.out.print("Enter the number of the user you want to make an offer to: ");
+						int offerTo = sc.nextInt();
+						System.out.print("Enter price: ");
+						double price = sc.nextDouble();
+						sc.nextLine();
+
+						driver.makeOffer(driver.getNearbyRequests().get(offerTo - 1), price);
+
+					}
+					else if (choice == 2)
+						continue;
 				}
-				else if (choice == 2)
-					continue;
+				else
+					System.out.println("No requests available at the moment.");
 			}
 			else if (input == 3) {
 				driver.listUserRatings();

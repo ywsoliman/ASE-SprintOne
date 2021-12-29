@@ -8,8 +8,11 @@ public class AppSystem {
 	public void setSaveStrategy(SaveStrategy saveStrategy) {
 		this.saveStrategy = saveStrategy;
 	}
-	public void save(Member member) {
-		saveStrategy.save(member);
+	public void saveUser(User user) {
+		saveStrategy.saveUser(user);
+	}
+	public void saveDriver(Driver driver) {
+		saveStrategy.saveDriver(driver);
 	}
 	public ArrayList<Driver> retrievePendingRegistrations() {
 		return saveStrategy.retrievePendingRegistrations();
