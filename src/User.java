@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class User extends Member implements Observable {
@@ -61,7 +62,11 @@ public class User extends Member implements Observable {
 	
 	public void rateDriver(Driver driver, double rating) {
 		driver.getUserRatings().put(this.getUsername(), rating);
-		driver.setAverageRating((driver.getAverageRating() + rating) / driver.getUserRatings().size());
+		double sum = 0.0;
+		for (Map.Entry<String, Double> entry : driver.getUserRatings().entrySet()) {
+			sum += entry.getValue();
+		}
+		driver.setAverageRating(sum / driver.getUserRatings().size());
 	}
 
 	@Override
