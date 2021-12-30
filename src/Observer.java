@@ -1,4 +1,4 @@
 
 public interface Observer {
-	public void update(User user);
+	public void update(Ride ride);
 }

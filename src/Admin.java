@@ -16,4 +16,12 @@ public class Admin {
 			System.out.println(driver.toString());
 		}
 	}
+	public void listRides() {
+		for(Ride ride : system.retrieveRides()) {
+			System.out.println(ride.toString());
+		}
+	}
+	public void addDiscountedArea(String destination) {
+		system.addDiscountedArea(destination);
+	}
 }

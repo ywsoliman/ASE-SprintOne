@@ -5,6 +5,8 @@ public class ArrayStrategy implements SaveStrategy{
 	AppSystem system;
 	ArrayList<User> users = new ArrayList<User>();
 	ArrayList<Driver> drivers = new ArrayList<Driver>();
+	ArrayList<Ride> rides = new ArrayList<Ride>();
+	ArrayList<String> discountedAreas = new ArrayList<String>();
 
 	public ArrayStrategy(AppSystem system) {
 		this.system = system;
@@ -14,6 +16,8 @@ public class ArrayStrategy implements SaveStrategy{
 	public void saveUser(User user) {
 		system.retrieveUsers().add(user);
 	}
+	
+	@Override
 	public void saveDriver(Driver driver) {
 		system.retrieveDrivers().add(driver);
 	}
@@ -37,6 +41,42 @@ public class ArrayStrategy implements SaveStrategy{
 	@Override
 	public ArrayList<User> retrieveUsers() {
 		return users;
+	}
+
+	@Override
+	public Member searchUser(String username) {
+		for (User user : system.retrieveUsers()) {
+			if (user.getUsername().equals(username)) {
+				return user;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public Member searchDriver(String username) {
+		for (Driver driver : system.retrieveDrivers()) {
+			if (driver.getUsername().equals(username)) {
+				return driver;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public ArrayList<Ride> retrieveRides() {
+		return rides;
+	}
+
+	@Override
+	public ArrayList<String> retrieveDiscountedAreasCopy() {
+		ArrayList<String> discountedCopy = discountedAreas;
+		return discountedCopy;
+	}
+
+	@Override
+	public ArrayList<String> retrieveDiscountedAreas() {
+		return discountedAreas;
 	}
 
 }

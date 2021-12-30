@@ -6,4 +6,9 @@ public interface SaveStrategy {
 	public ArrayList<Driver> retrieveDrivers();
 	public ArrayList<Driver> retrievePendingRegistrations();
 	public ArrayList<User> retrieveUsers();
+	public Member searchUser(String username);
+	public Member searchDriver(String username);
+	public ArrayList<Ride> retrieveRides();
+	public ArrayList<String> retrieveDiscountedAreasCopy();
+	public ArrayList<String> retrieveDiscountedAreas();
 }

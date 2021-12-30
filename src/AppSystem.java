@@ -23,6 +23,12 @@ public class AppSystem {
 	public ArrayList<Driver> retrieveDrivers() {
 		return saveStrategy.retrieveDrivers();
 	}
+	public ArrayList<Ride> retrieveRides() {
+		return saveStrategy.retrieveRides();
+	}
+	void addDiscountedArea(String destination) {
+		saveStrategy.retrieveDiscountedAreas().add(destination);
+	}
 
 
 	public static void main(String[] args) {

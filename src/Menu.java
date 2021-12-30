@@ -153,8 +153,8 @@ public class Menu {
 				System.out.println("Enter destination: ");
 				dest = sc.nextLine();
 				
-				user.subscribe(src, dest, system);
-				user.requestRide();
+				//user.subscribe(src, dest, system);
+				user.requestRide(src, dest, system, 50000);
 				
 			}
 			else if (input == 2) {
@@ -169,9 +169,10 @@ public class Menu {
 				if (choice == 1) {
 					System.out.println("Enter driver username: ");
 					String acceptedDriver = sc.nextLine();
-					for(HashMap.Entry<Driver, Double> entry : user.getOffers().entrySet()) {
-						if (entry.getKey().getUsername().equals(acceptedDriver)) {
-							user.acceptOffer(entry.getKey());
+					for(Offer offer : user.getOffers()) {
+						if (offer.driver.username.equals(acceptedDriver)) {
+							user.acceptOffer(offer);
+							user.getRide().setAcceptedOffer(offer);
 							break;
 						}
 					}
@@ -204,7 +205,7 @@ public class Menu {
 			}
 			else if (input == 2) {
 				for (int i = 0; i < driver.getNearbyRequests().size(); i++) {
-					System.out.println(i + 1 + ": " + driver.getNearbyRequests().get(i).getUsername());
+					System.out.println(i + 1 + ": " + driver.getNearbyRequests().get(i).user.username);
 				}
 				if (driver.getNearbyRequests().size() > 0) {
 
@@ -221,7 +222,7 @@ public class Menu {
 						double price = sc.nextDouble();
 						sc.nextLine();
 
-						driver.makeOffer(driver.getNearbyRequests().get(offerTo - 1), price);
+						driver.makeOffer(driver.getNearbyRequests().get(offerTo - 1).user, price);
 
 					}
 					else if (choice == 2)
