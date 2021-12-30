@@ -6,22 +6,21 @@ public class Driver extends Member implements Observer {
 	String nationalID;
 	String drivingLicense;
 	boolean verified;
-	User user;
+	boolean available;
+	Ride ride;
 	double averageRating;
-	//float rating;
 	ArrayList<String> favoriteAreas = new ArrayList<String>();
-	ArrayList<User> nearbyRequests = new ArrayList<User>();
+	ArrayList<Ride> nearbyRequests = new ArrayList<Ride>();
 	HashMap<String, Double> userRatings = new HashMap<String, Double>();
 	
 
-	public Driver(String username, String password, String email, String mobileNumber, String nationalID,
-			String drivingLicense) {
+	public Driver(String username, String password, String email, String mobileNumber, String nationalID, String drivingLicense) {
 		super(username, password, email, mobileNumber);
 		this.nationalID = nationalID;
 		this.drivingLicense = drivingLicense;
 		this.verified = false;
+		this.available = true;
 		this.averageRating = 0.0;
-		//ride.subscribe(this);
 	}
 	
 
@@ -30,7 +29,17 @@ public class Driver extends Member implements Observer {
 	}
 
 
-	public ArrayList<User> getNearbyRequests() {
+	public boolean isAvailable() {
+		return available;
+	}
+
+
+	public void setAvailable(boolean available) {
+		this.available = available;
+	}
+
+
+	public ArrayList<Ride> getNearbyRequests() {
 		return nearbyRequests;
 	}
 
@@ -69,7 +78,8 @@ public class Driver extends Member implements Observer {
 	}
 	
 	public void makeOffer(User user, double price) {
-		user.getOffers().put(this, price);
+		Offer offer = new Offer(price, this);
+		user.getOffers().add(offer);	
 	}
 	
 	public void listUserRatings() {
@@ -85,14 +95,14 @@ public class Driver extends Member implements Observer {
 				+ mobileNumber + ", suspended=" + suspended + "]";
 	}	
 
-	public User getUser() {
-		return user;
-	}
+//	public User getUser() {
+//		return user;
+//	}
 
 	@Override
-	public void update(User user) {
-		this.user = user;
-		nearbyRequests.add(user);
+	public void update(Ride ride) {
+		this.ride = ride;
+		nearbyRequests.add(ride);
 	}
 	
 	

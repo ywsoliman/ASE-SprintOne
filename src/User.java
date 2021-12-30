@@ -1,34 +1,23 @@
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.Map;
 import java.util.Scanner;
 
-public class User extends Member implements Observable {
-	ArrayList<Driver> interestedDrivers = new ArrayList<Driver>();
-	HashMap<Driver, Double> offers = new HashMap<Driver, Double>();
+public class User extends Member {
+	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	Ride ride;
 
 	public User(String username, String password, String email, String mobileNumber) {
 		super(username, password, email, mobileNumber);
 	}
 	
-//	public void requestRide(String source, String destination) {
-//		
-//	}
-
-	@Override
-	public void subscribe(String source, String destination, AppSystem system) {
+	
+	public void acceptOffer(Offer offer) {
+		Date date = new Date();
+		offer.setTimeAccepted(formatter.format(date));
+		offer.getDriver().setAvailable(false);
 		
-		for(Driver driver : system.retrieveDrivers()) {
-			
-			if(driver.getFavoriteAreas().contains(source) && !driver.isSuspended() && driver.isVerified()) {
-				interestedDrivers.add(driver);
-			}
-		}
-	}
-	
-	
-	public void acceptOffer(Driver driver) {
-		// Working until here.
 		System.out.println("Please rate the driver from 1 to 5");
 		
 		Scanner input = new Scanner(System.in);
@@ -40,23 +29,33 @@ public class User extends Member implements Observable {
 			rating = input.nextDouble();
 			input.nextLine();
 		}
-		
-		rateDriver(driver, rating);
-		for (Driver d : interestedDrivers) {
-			d.getNearbyRequests().remove(this);
+		offer.getDriver().setAvailable(true);
+		rateDriver(offer.getDriver(), rating);
+		for (Driver d : ride.interestedDrivers) {
+			d.getNearbyRequests().remove(ride);
 		}
 		
-		interestedDrivers.clear();
+		ride.interestedDrivers.clear();
 	}
 	
 	
-	public HashMap<Driver, Double> getOffers() {
-		return offers;
+	public Ride getRide() {
+		return ride;
+	}
+
+
+	public void setRide(Ride ride) {
+		this.ride = ride;
+	}
+
+
+	public ArrayList<Offer> getOffers() {
+		return ride.allOffers;
 	}
 	
 	public void listOffers() {
-		for(HashMap.Entry<Driver, Double> entry : offers.entrySet()) {
-			System.out.println("Driver: " + entry.getKey().getUsername() + " Average Rating:  " + entry.getKey().getAverageRating() + " Offer: $" + entry.getValue());
+		for(Offer offer : ride.allOffers) {
+			System.out.println("Driver: " + offer.getDriver().getUsername() + " Average Rating:  " + offer.getDriver().getAverageRating() + " Offer: $" + offer.getPrice());
 		}
 	}
 	
@@ -69,19 +68,11 @@ public class User extends Member implements Observable {
 		driver.setAverageRating(sum / driver.getUserRatings().size());
 	}
 
-	@Override
-	public void unsubscribe(Observer o) {
-		
-		interestedDrivers.remove((Driver) o); 
-	}
-	@Override
-	public void requestRide() {
-		//ride = this;
-		
-		for (Driver driver : interestedDrivers) {
-			
-			driver.update(this);
-		}
+	public void requestRide(String source, String destination, AppSystem system, int numberOfPassengers) {
+		Ride ride = new Ride(this, source, destination, numberOfPassengers);
+		ride.subscribe(source, destination, system);
+		ride.update();
+		this.ride = ride;
 	}
 	
 }
