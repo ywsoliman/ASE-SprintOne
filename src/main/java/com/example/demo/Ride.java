@@ -22,7 +22,9 @@ public class Ride implements Observable{
         this.numberOfPassengers = numberOfPassengers;
     }
 
-
+    public User getUser() {
+        return user;
+    }
 
     public Offer getAcceptedOffer() {
         return acceptedOffer;

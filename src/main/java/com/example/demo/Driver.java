@@ -88,9 +88,15 @@ public class Driver extends Member implements Observer {
         return favoriteAreas;
     }
 
-    public void makeOffer(User user, double price) {
+    @PostMapping("/drivers/make-offer/{username}/{price}")
+    public void makeOffer(@PathVariable String username, @PathVariable double price) {
         Offer offer = new Offer(price, this);
-        user.getOffers().add(offer);
+        for (Ride ride: nearbyRequests) {
+            if(ride.getUser().getUsername().equals(username)){
+                ride.getUser().getOffers().add(offer);
+                break;
+            }
+        }
     }
 
 
