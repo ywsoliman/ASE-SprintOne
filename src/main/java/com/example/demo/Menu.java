@@ -289,7 +289,7 @@ public class Menu {
 
                 for (Driver driver : system.retrieveDrivers()) {
                     if (driver.getUsername().equals(driverVerify)) {
-                        admin.verifyDriver(driver);
+//                        admin.verifyDriver(driver);
                         break;
                     }
                 }

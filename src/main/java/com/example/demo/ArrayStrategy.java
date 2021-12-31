@@ -1,8 +1,11 @@
 package com.example.demo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 
-public class ArrayStrategy implements SaveStrategy{
+public class ArrayStrategy implements SaveStrategy {
 
     AppSystem system;
     ArrayList<User> users = new ArrayList<User>();
@@ -21,7 +24,7 @@ public class ArrayStrategy implements SaveStrategy{
 
     @Override
     public void saveDriver(Driver driver) {
-        system.retrieveDrivers().add(driver);
+        drivers.add(driver);
     }
 
     @Override

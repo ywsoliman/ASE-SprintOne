@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,7 +10,7 @@ import java.util.Scanner;
 
 public class User extends Member {
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-    Ride ride;
+    Ride ride = new Ride(this, "Cairo", "Giza", 2);
 
     public User(String username, String password, String email, String mobileNumber) {
         super(username, password, email, mobileNumber);

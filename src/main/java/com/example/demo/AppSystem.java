@@ -1,30 +1,41 @@
 package com.example.demo;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.ArrayList;
 
+@RestController
 public class AppSystem {
 
-    SaveStrategy saveStrategy;
-
+    SaveStrategy saveStrategy = new ArrayStrategy(this);
 
     public void setSaveStrategy(SaveStrategy saveStrategy) {
         this.saveStrategy = saveStrategy;
     }
-    public void saveUser(User user) {
+    @PostMapping("/add/user")
+    public void saveUser(@RequestBody User user) {
         saveStrategy.saveUser(user);
     }
-    public void saveDriver(Driver driver) {
+    @PostMapping("/add/driver")
+    public void saveDriver(@RequestBody Driver driver) {
         saveStrategy.saveDriver(driver);
     }
+    @GetMapping("/drivers/pending-registration")
     public ArrayList<Driver> retrievePendingRegistrations() {
         return saveStrategy.retrievePendingRegistrations();
     }
+    @GetMapping("/users")
     public ArrayList<User> retrieveUsers() {
         return saveStrategy.retrieveUsers();
     }
+    @GetMapping("/drivers")
     public ArrayList<Driver> retrieveDrivers() {
         return saveStrategy.retrieveDrivers();
     }
+    @GetMapping("/rides")
     public ArrayList<Ride> retrieveRides() {
         return saveStrategy.retrieveRides();
     }
