@@ -36,8 +36,6 @@ public class Ride implements Observable{
         this.acceptedOffer = acceptedOffer;
     }
 
-
-
     @Override
     public String toString() {
         return "Ride [ID=" + ID + "]";

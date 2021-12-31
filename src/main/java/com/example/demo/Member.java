@@ -7,7 +7,6 @@ public class Member {
     String email;
     String mobileNumber;
     boolean suspended;
-
     public Member(){
 
     }
