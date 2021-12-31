@@ -1,7 +1,7 @@
 package com.example.demo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.jetbrains.annotations.NotNull;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +15,9 @@ public class User extends Member {
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     Ride ride = new Ride(this, "Cairo", "Giza", 2);
 
+    public User(){
+
+    }
     public User(String username, String password, String email, String mobileNumber) {
         super(username, password, email, mobileNumber);
     }

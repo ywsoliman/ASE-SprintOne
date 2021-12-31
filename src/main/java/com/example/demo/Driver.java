@@ -21,7 +21,9 @@ public class Driver extends Member implements Observer {
     ArrayList<Ride> nearbyRequests = new ArrayList<Ride>();
     HashMap<String, Double> userRatings = new HashMap<String, Double>();
 
-    
+    public Driver(){
+
+    }
     public Driver(String username, String password, String email, String mobileNumber, String nationalID, String drivingLicense) {
         super(username, password, email, mobileNumber);
         this.nationalID = nationalID;

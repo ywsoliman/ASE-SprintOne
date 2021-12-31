@@ -8,6 +8,9 @@ public class Member {
     String mobileNumber;
     boolean suspended;
 
+    public Member(){
+
+    }
     public Member(String username, String password, String email, String mobileNumber) {
         this.username = username;
         this.password = password;
