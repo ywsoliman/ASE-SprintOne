@@ -1,13 +1,16 @@
 package com.example.demo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.Scanner;
-
+@RestController
 public class User extends Member {
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     Ride ride = new Ride(this, "Cairo", "Giza", 2);
@@ -53,6 +56,7 @@ public class User extends Member {
     }
 
 
+    @GetMapping("/users/offers")
     public ArrayList<Offer> getOffers() {
         return ride.allOffers;
     }

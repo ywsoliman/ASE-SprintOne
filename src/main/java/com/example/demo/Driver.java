@@ -1,8 +1,14 @@
 package com.example.demo;
 
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-
+@RestController
 public class Driver extends Member implements Observer {
 
     String nationalID;
@@ -15,7 +21,7 @@ public class Driver extends Member implements Observer {
     ArrayList<Ride> nearbyRequests = new ArrayList<Ride>();
     HashMap<String, Double> userRatings = new HashMap<String, Double>();
 
-
+    
     public Driver(String username, String password, String email, String mobileNumber, String nationalID, String drivingLicense) {
         super(username, password, email, mobileNumber);
         this.nationalID = nationalID;
@@ -25,7 +31,7 @@ public class Driver extends Member implements Observer {
         this.averageRating = 0.0;
     }
 
-
+    @GetMapping("/drivers/user-ratings")
     public HashMap<String, Double> getUserRatings() {
         return userRatings;
     }
@@ -72,9 +78,11 @@ public class Driver extends Member implements Observer {
     public void setVerified(boolean verified) {
         this.verified = verified;
     }
-    public void addFavArea(String area) {
+    @PostMapping("/drivers/add-fav/{area}")
+    public void addFavArea(@PathVariable String area) {
         favoriteAreas.add(area);
     }
+    @GetMapping("/drivers/fav-areas")
     public ArrayList<String> getFavoriteAreas() {
         return favoriteAreas;
     }
@@ -83,6 +91,7 @@ public class Driver extends Member implements Observer {
         Offer offer = new Offer(price, this);
         user.getOffers().add(offer);
     }
+
 
     public void listUserRatings() {
         for(HashMap.Entry<String, Double> entry : userRatings.entrySet()) {

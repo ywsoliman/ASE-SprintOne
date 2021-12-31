@@ -44,9 +44,9 @@ public class AppSystem {
     }
 
 
-    public static void main(String[] args) {
-
-        Menu menu = new Menu();
-
-    }
+//    public static void main(String[] args) {
+//
+//        Menu menu = new Menu();
+//
+//    }
 }

@@ -21,8 +21,19 @@ public class Admin {
                 driver.setVerified(true);
         }
     }
-    public void suspend(Member member) {
-        member.setSuspended(true);
+    @PutMapping("/drivers/suspend/{username}")
+    public void suspendDriver(@PathVariable String username) {
+        for (Driver driver : system.retrieveDrivers()) {
+            if (driver.getUsername().equals(username))
+                driver.setSuspended(true);
+        }
+    }
+    @PutMapping("/users/suspend/{username}")
+    public void suspendUser(@PathVariable String username) {
+        for (User user : system.retrieveUsers()) {
+            if (user.getUsername().equals(username))
+                user.setSuspended(true);
+        }
     }
     public void listPendingRegistrations() {
         for(Driver driver : system.retrievePendingRegistrations()) {
