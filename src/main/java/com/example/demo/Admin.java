@@ -1,8 +1,8 @@
 package com.example.demo;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RestController
 public class Admin {
@@ -11,8 +11,6 @@ public class Admin {
     public Admin(AppSystem system) {
         this.system = system;
     }
-
-
 
     @PutMapping("/drivers/verify/{username}")
     public void verifyDriver(@PathVariable String username) {
@@ -35,17 +33,16 @@ public class Admin {
                 user.setSuspended(true);
         }
     }
-    public void listPendingRegistrations() {
-        for(Driver driver : system.retrievePendingRegistrations()) {
-            System.out.println(driver.toString());
-        }
+    @GetMapping("/admin/pending-registration")
+    public ArrayList<Driver> listPendingRegistrations() {
+        return system.retrievePendingRegistrations();
     }
-    public void listRides() {
-        for(Ride ride : system.retrieveRides()) {
-            System.out.println(ride.toString());
-        }
+    @GetMapping("/admin/listRides")
+    public ArrayList<Ride> listRides() {
+        return system.retrieveRides();
     }
-    public void addDiscountedArea(String destination) {
+    @PostMapping("/admin/add-discounted-area/{destination}")
+    public void addDiscountedArea(@PathVariable String destination) {
         system.addDiscountedArea(destination);
     }
 }

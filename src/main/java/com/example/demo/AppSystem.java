@@ -23,7 +23,7 @@ public class AppSystem {
     public void saveDriver(@RequestBody Driver driver) {
         saveStrategy.saveDriver(driver);
     }
-    @GetMapping("/drivers/pending-registration")
+    //@GetMapping("/drivers/pending-registration")
     public ArrayList<Driver> retrievePendingRegistrations() {
         return saveStrategy.retrievePendingRegistrations();
     }
@@ -35,7 +35,7 @@ public class AppSystem {
     public ArrayList<Driver> retrieveDrivers() {
         return saveStrategy.retrieveDrivers();
     }
-    @GetMapping("/rides")
+    //@GetMapping("/rides")
     public ArrayList<Ride> retrieveRides() {
         return saveStrategy.retrieveRides();
     }

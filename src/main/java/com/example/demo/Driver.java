@@ -53,7 +53,6 @@ public class Driver extends Member implements Observer {
         return nearbyRequests;
     }
 
-
     public double getAverageRating() {
         return averageRating;
     }
