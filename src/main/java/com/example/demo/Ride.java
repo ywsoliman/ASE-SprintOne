@@ -21,7 +21,9 @@ public class Ride implements Observable{
         this.ID = counter;
         this.numberOfPassengers = numberOfPassengers;
     }
+    Ride(){
 
+    }
     public User getUser() {
         return user;
     }

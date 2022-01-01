@@ -13,7 +13,7 @@ import java.util.Scanner;
 @RestController
 public class User extends Member {
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-    Ride ride = new Ride(this, "Cairo", "Giza", 2);
+    Ride ride = new Ride();
 
     public User(){
 
