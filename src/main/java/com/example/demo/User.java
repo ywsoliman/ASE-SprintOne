@@ -12,9 +12,6 @@ import java.util.Map;
 import java.util.Scanner;
 @RestController
 public class User extends Member {
-
-    static int userID = 1;
-    int ID;
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     Ride ride = new Ride(this, "Cairo", "Giza", 2);
 
@@ -23,15 +20,8 @@ public class User extends Member {
     }
     public User(String username, String password, String email, String mobileNumber) {
         super(username, password, email, mobileNumber);
-        this.ID = userID;
-        userID++;
     }
-    public void setUserID(int id){
-        this.ID = id;
-    }
-    public int getUserID(){
-        return ID;
-    }
+
 
     public void acceptOffer(Offer offer) {
         Date date = new Date();
