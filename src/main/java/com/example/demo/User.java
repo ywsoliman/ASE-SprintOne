@@ -47,29 +47,21 @@ public class User extends Member {
 
         ride.interestedDrivers.clear();
     }
-
-
     public Ride getRide() {
         return ride;
     }
-
-
     public void setRide(Ride ride) {
         this.ride = ride;
     }
-
-
     @GetMapping("/users/offers")
     public ArrayList<Offer> getOffers() {
         return ride.allOffers;
     }
-
     public void listOffers() {
         for(Offer offer : ride.allOffers) {
             System.out.println("Driver: " + offer.getDriver().getUsername() + " Average Rating:  " + offer.getDriver().getAverageRating() + " Offer: $" + offer.getPrice());
         }
     }
-
     public void rateDriver(Driver driver, double rating) {
         driver.getUserRatings().put(this.getUsername(), rating);
         double sum = 0.0;
@@ -78,12 +70,10 @@ public class User extends Member {
         }
         driver.setAverageRating(sum / driver.getUserRatings().size());
     }
-
     public void requestRide(String source, String destination, AppSystem system, int numberOfPassengers) {
         Ride ride = new Ride(this, source, destination, numberOfPassengers);
         ride.subscribe(source, destination, system);
         ride.update();
         this.ride = ride;
     }
-
 }

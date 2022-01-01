@@ -38,16 +38,13 @@ public class Driver extends Member implements Observer {
         return userRatings;
     }
 
-
     public boolean isAvailable() {
         return available;
     }
 
-
     public void setAvailable(boolean available) {
         this.available = available;
     }
-
 
     public ArrayList<Ride> getNearbyRequests() {
         return nearbyRequests;
@@ -99,7 +96,6 @@ public class Driver extends Member implements Observer {
         }
     }
 
-
     public void listUserRatings() {
         for(HashMap.Entry<String, Double> entry : userRatings.entrySet()) {
             System.out.println("User: " + entry.getKey() + " Rating:  " + entry.getValue());
@@ -122,6 +118,5 @@ public class Driver extends Member implements Observer {
         this.ride = ride;
         nearbyRequests.add(ride);
     }
-
 
 }

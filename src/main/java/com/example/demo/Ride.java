@@ -13,6 +13,9 @@ public class Ride implements Observable{
     static int counter = 0;
     int ID;
 
+    Ride(){
+
+    }
     Ride(User user, String source, String destination, int numberOfPassengers){
         counter++;
         this.user = user;
@@ -31,8 +34,6 @@ public class Ride implements Observable{
     public Offer getAcceptedOffer() {
         return acceptedOffer;
     }
-
-
 
     public void setAcceptedOffer(Offer acceptedOffer) {
         this.acceptedOffer = acceptedOffer;
