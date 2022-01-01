@@ -9,36 +9,41 @@ import java.util.ArrayList;
 
 @RestController
 public class AppSystem {
-    SaveStrategy saveStrategy;
+    static SaveStrategy saveStrategy;
+    private static  AppSystem appSystem;
+
     private AppSystem(){
-        saveStrategy=new ArrayStrategy(this) ;
     }
-    private static  AppSystem appSystem = new AppSystem();
 
     public  static AppSystem getAppSystem(){
+        if(appSystem == null){
+            appSystem = new AppSystem();
+            saveStrategy = new ArrayStrategy();
+        }
         return appSystem;
     }
     public void setSaveStrategy(SaveStrategy saveStrategy) {
         this.saveStrategy = saveStrategy;
     }
     @PostMapping("/add/user")
-    public void saveUser(@RequestBody User user) {
+    public static void saveUser(@RequestBody User user) {
         saveStrategy.saveUser(user);
     }
     @PostMapping("/add/driver")
-    public void saveDriver(@RequestBody Driver driver) {
-        saveStrategy.saveDriver(driver);
+    public static void saveDriver(@RequestBody Driver driver) {
+        Driver newDriver = driver;
+        saveStrategy.saveDriver(newDriver);
     }
     //@GetMapping("/drivers/pending-registration")
     public ArrayList<Driver> retrievePendingRegistrations() {
         return saveStrategy.retrievePendingRegistrations();
     }
     @GetMapping("/users")
-    public ArrayList<User> retrieveUsers() {
+    public static ArrayList<User> retrieveUsers() {
         return saveStrategy.retrieveUsers();
     }
     @GetMapping("/drivers")
-    public ArrayList<Driver> retrieveDrivers() {
+    public static ArrayList<Driver> retrieveDrivers() {
         return saveStrategy.retrieveDrivers();
     }
     //@GetMapping("/rides")

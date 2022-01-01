@@ -2,8 +2,8 @@ package com.example.demo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,6 +13,7 @@ import java.util.Scanner;
 @RestController
 public class User extends Member {
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     Ride ride = new Ride();
 
     public User(){
@@ -23,29 +24,52 @@ public class User extends Member {
     }
 
 
-    public void acceptOffer(Offer offer) {
-        Date date = new Date();
-        offer.setTimeAccepted(formatter.format(date));
-        offer.getDriver().setAvailable(false);
-
-        System.out.println("Please rate the driver from 1 to 5");
-
-        Scanner input = new Scanner(System.in);
-        double rating = input.nextDouble();
-        input.nextLine();
-
-        while(rating < 1 || rating > 5) {
-            System.out.println("Invalid rating. Please enter a number from 1 to 5.");
-            rating = input.nextDouble();
-            input.nextLine();
+//    public void acceptOffer(Offer offer) {
+//        Date date = new Date();
+//        offer.setTimeAccepted(formatter.format(date));
+//        offer.getDriver().setAvailable(false);
+//
+//        System.out.println("Please rate the driver from 1 to 5");
+//
+//        Scanner input = new Scanner(System.in);
+//        double rating = input.nextDouble();
+//        input.nextLine();
+//
+//        while(rating < 1 || rating > 5) {
+//            System.out.println("Invalid rating. Please enter a number from 1 to 5.");
+//            rating = input.nextDouble();
+//            input.nextLine();
+//        }
+//        offer.getDriver().setAvailable(true);
+//        rateDriver(offer.getDriver(), rating);
+//        for (Driver d : ride.interestedDrivers) {
+//            d.getNearbyRequests().remove(ride);
+//        }
+//
+//        ride.interestedDrivers.clear();
+//    }
+    @PostMapping("users/accept-offer/{driverName}/{username}")
+    public void acceptOffer(@PathVariable String driverName, @PathVariable String username){
+        for(User user : AppSystem.getAppSystem().retrieveUsers()){
+            if(user.getUsername().equals(username)){
+                for(Offer offer : user.getRide().getAllOffers()){
+                    if (offer.getDriver().getUsername().equals(driverName)) {
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                        Date date = new Date();
+                        offer.setTimeAccepted(formatter.format(date));
+                        user.getRide().setAcceptedOffer(offer);
+                        offer.getDriver().setActiveRide(user.getRide());
+                        offer.getDriver().setAvailable(false);
+                        break;
+                    }
+                }
+                for(Driver driver : user.getRide().getInterestedDrivers()){
+                    driver.getNearbyRequests().remove(user.getRide());
+                }
+                user.getRide().getInterestedDrivers().clear();
+                break;
+            }
         }
-        offer.getDriver().setAvailable(true);
-        rateDriver(offer.getDriver(), rating);
-        for (Driver d : ride.interestedDrivers) {
-            d.getNearbyRequests().remove(ride);
-        }
-
-        ride.interestedDrivers.clear();
     }
     public Ride getRide() {
         return ride;
@@ -70,10 +94,17 @@ public class User extends Member {
         }
         driver.setAverageRating(sum / driver.getUserRatings().size());
     }
-    public void requestRide(String source, String destination, AppSystem system, int numberOfPassengers) {
-        Ride ride = new Ride(this, source, destination, numberOfPassengers);
-        ride.subscribe(source, destination, system);
-        ride.update();
-        this.ride = ride;
+    @PostMapping("/request-ride/{source}/{destination}/{numberOfPassengers}/{username}")
+    public void requestRide(@PathVariable String source, @PathVariable String destination, @PathVariable int numberOfPassengers, @PathVariable String username) {
+        for(User user : AppSystem.getAppSystem().retrieveUsers()){
+            if(user.getUsername().equals(username)){
+                Ride ride = new Ride(user, source, destination, numberOfPassengers);
+                //AppSystem.getAppSystem().retrieveRides().add(ride);
+                ride.subscribe(source, destination);
+                ride.update();
+                this.ride = ride;
+                break;
+            }
+        }
     }
 }
