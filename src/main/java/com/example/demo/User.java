@@ -13,26 +13,16 @@ import java.util.Scanner;
 @RestController
 public class User extends Member {
 
-    static int userID = 1;
-    int ID;
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-    Ride ride = new Ride(this, "Cairo", "Giza", 2);
+    Ride ride = new Ride();
 
     public User(){
 
     }
     public User(String username, String password, String email, String mobileNumber) {
         super(username, password, email, mobileNumber);
-        this.ID = userID;
-        userID++;
-    }
-    public void setUserID(int id){
-        this.ID = id;
-    }
-    public int getUserID(){
-        return ID;
-    }
 
+    }
     public void acceptOffer(Offer offer) {
         Date date = new Date();
         offer.setTimeAccepted(formatter.format(date));
@@ -57,29 +47,21 @@ public class User extends Member {
 
         ride.interestedDrivers.clear();
     }
-
-
     public Ride getRide() {
         return ride;
     }
-
-
     public void setRide(Ride ride) {
         this.ride = ride;
     }
-
-
     @GetMapping("/users/offers")
     public ArrayList<Offer> getOffers() {
         return ride.allOffers;
     }
-
     public void listOffers() {
         for(Offer offer : ride.allOffers) {
             System.out.println("Driver: " + offer.getDriver().getUsername() + " Average Rating:  " + offer.getDriver().getAverageRating() + " Offer: $" + offer.getPrice());
         }
     }
-
     public void rateDriver(Driver driver, double rating) {
         driver.getUserRatings().put(this.getUsername(), rating);
         double sum = 0.0;
@@ -88,12 +70,10 @@ public class User extends Member {
         }
         driver.setAverageRating(sum / driver.getUserRatings().size());
     }
-
     public void requestRide(String source, String destination, AppSystem system, int numberOfPassengers) {
         Ride ride = new Ride(this, source, destination, numberOfPassengers);
         ride.subscribe(source, destination, system);
         ride.update();
         this.ride = ride;
     }
-
 }

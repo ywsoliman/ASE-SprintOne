@@ -50,16 +50,13 @@ public class Driver extends Member implements Observer {
         return userRatings;
     }
 
-
     public boolean isAvailable() {
         return available;
     }
 
-
     public void setAvailable(boolean available) {
         this.available = available;
     }
-
 
     public ArrayList<Ride> getNearbyRequests() {
         return nearbyRequests;
@@ -100,17 +97,16 @@ public class Driver extends Member implements Observer {
         return favoriteAreas;
     }
 
-    @PostMapping("/drivers/make-offer/{userID}/{price}")
-    public void makeOffer(@PathVariable int userID, @PathVariable double price) {
+    @PostMapping("/drivers/make-offer/{username}/{price}")
+    public void makeOffer(String username, double price) {
         Offer offer = new Offer(price, this);
         for (Ride ride: nearbyRequests) {
-            if(ride.getUser().getUserID() == userID){
+            if(ride.getUser().getUsername().equals(username)){
                 ride.getUser().getOffers().add(offer);
                 break;
             }
         }
     }
-
 
     public void listUserRatings() {
         for(HashMap.Entry<String, Double> entry : userRatings.entrySet()) {
@@ -134,6 +130,5 @@ public class Driver extends Member implements Observer {
         this.ride = ride;
         nearbyRequests.add(ride);
     }
-
 
 }
