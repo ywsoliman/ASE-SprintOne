@@ -17,8 +17,6 @@ public class Driver extends Member implements Observer {
     boolean available;
     Ride ride;
     double averageRating;
-    static int driverID = 1;
-    int ID;
     ArrayList<String> favoriteAreas = new ArrayList<String>();
     ArrayList<Ride> nearbyRequests = new ArrayList<Ride>();
     HashMap<String, Double> userRatings = new HashMap<String, Double>();
@@ -33,16 +31,6 @@ public class Driver extends Member implements Observer {
         this.verified = false;
         this.available = true;
         this.averageRating = 0.0;
-        this.ID = driverID;
-        driverID++;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
     }
 
     @GetMapping("/drivers/user-ratings")
@@ -98,7 +86,7 @@ public class Driver extends Member implements Observer {
     }
 
     @PostMapping("/drivers/make-offer/{username}/{price}")
-    public void makeOffer(String username, double price) {
+    public void makeOffer(@PathVariable String username, @PathVariable double price) {
         Offer offer = new Offer(price, this);
         for (Ride ride: nearbyRequests) {
             if(ride.getUser().getUsername().equals(username)){

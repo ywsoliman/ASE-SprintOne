@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Scanner;
 @RestController
 public class User extends Member {
-
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     Ride ride = new Ride();
 
@@ -21,8 +20,9 @@ public class User extends Member {
     }
     public User(String username, String password, String email, String mobileNumber) {
         super(username, password, email, mobileNumber);
-
     }
+
+
     public void acceptOffer(Offer offer) {
         Date date = new Date();
         offer.setTimeAccepted(formatter.format(date));
