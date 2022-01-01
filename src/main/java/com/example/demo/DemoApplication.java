@@ -10,6 +10,7 @@ public class DemoApplication {
 
 	public static void main(String[] args) {
 		//AppSystem.getAppSystem().setSaveStrategy(new ArrayStrategy());
+		Admin admin = new Admin(AppSystem.getAppSystem());
 		SpringApplication.run(DemoApplication.class, args);
 	}
 

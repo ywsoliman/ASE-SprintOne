@@ -1,12 +1,15 @@
 package com.example.demo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 @RestController
 public class Driver extends Member implements Observer {
@@ -15,7 +18,8 @@ public class Driver extends Member implements Observer {
     String drivingLicense;
     boolean verified;
     boolean available;
-    Ride ride;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    Ride activeRide;
     double averageRating;
     ArrayList<String> favoriteAreas = new ArrayList<String>();
     ArrayList<Ride> nearbyRequests = new ArrayList<Ride>();
@@ -31,6 +35,14 @@ public class Driver extends Member implements Observer {
         this.verified = false;
         this.available = true;
         this.averageRating = 0.0;
+    }
+
+    public Ride getActiveRide() {
+        return activeRide;
+    }
+
+    public void setActiveRide(Ride activeRide) {
+        this.activeRide = activeRide;
     }
 
     @GetMapping("/drivers/user-ratings")
@@ -76,22 +88,56 @@ public class Driver extends Member implements Observer {
     public void setVerified(boolean verified) {
         this.verified = verified;
     }
-    @PostMapping("/drivers/add-fav/{area}")
-    public void addFavArea(@PathVariable String area) {
-        this.favoriteAreas.add(area);
-
+    @PostMapping("/drivers/add-fav/{username}/{area}")
+    public void addFavArea(@PathVariable String username, @PathVariable String area) {
+        for(Driver driver : AppSystem.getAppSystem().retrieveDrivers()){
+            if(driver.getUsername().equals(username)){
+                driver.getFavoriteAreas().add(area);
+                break;
+            }
+        }
+    }
+    @PostMapping("/drivers/arrived-to-location/{username}")
+    public void arrivedToLocation(@PathVariable String username){
+        for(Driver driver : AppSystem.retrieveDrivers()) {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            Date date = new Date();
+            driver.getActiveRide().setStarted(formatter.format(date));
+            break;
+        }
+    }
+    @PostMapping("/drivers/arrived-to-destination/{username}")
+    public void arrivedToDestination(@PathVariable String username){
+        for(Driver driver : AppSystem.retrieveDrivers()) {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            Date date = new Date();
+            driver.getActiveRide().setEnded(formatter.format(date));
+            driver.setAvailable(true);
+            Ride newRide = driver.getActiveRide();
+            AppSystem.getAppSystem().retrieveRides().add(newRide);
+            //driver.setActiveRide(null);
+            break;
+        }
     }
 //    @GetMapping("/drivers/fav-areas")
     public ArrayList<String> getFavoriteAreas() {
         return favoriteAreas;
     }
 
-    @PostMapping("/drivers/make-offer/{username}/{price}")
-    public void makeOffer(@PathVariable String username, @PathVariable double price) {
-        Offer offer = new Offer(price, this);
-        for (Ride ride: nearbyRequests) {
-            if(ride.getUser().getUsername().equals(username)){
-                ride.getUser().getOffers().add(offer);
+    @PostMapping("/drivers/make-offer/{username}/{price}/{driverName}")
+    public void makeOffer(@PathVariable String username, @PathVariable double price, @PathVariable String driverName) {
+        for(Driver driver : AppSystem.getAppSystem().retrieveDrivers()){
+            if(driver.getUsername().equals(driverName)){
+                for (Ride ride: driver.getNearbyRequests()) {
+                    if(ride.getUser().getUsername().equals(username)){
+                        Offer offer = new Offer(price, driver);
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                        Date date = new Date();
+                        offer.setTimeMade(formatter.format(date));
+                        ride.getUser().getOffers().add(offer);
+                        break;
+                    }
+                }
                 break;
             }
         }
@@ -116,7 +162,7 @@ public class Driver extends Member implements Observer {
 
     @Override
     public void update(Ride ride) {
-        this.ride = ride;
+        //this.ride = ride;
         nearbyRequests.add(ride);
     }
 

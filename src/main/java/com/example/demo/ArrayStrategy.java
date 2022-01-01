@@ -7,15 +7,15 @@ import java.util.ArrayList;
 
 public class ArrayStrategy implements SaveStrategy {
 
-    AppSystem system ;
+    //AppSystem system ;
     ArrayList<User> users = new ArrayList<User>();
     ArrayList<Driver> drivers = new ArrayList<Driver>();
     ArrayList<Ride> rides = new ArrayList<Ride>();
     ArrayList<String> discountedAreas = new ArrayList<String>();
 
-    public ArrayStrategy(AppSystem system) {
-        this.system = AppSystem.getAppSystem();
-    }
+//    public ArrayStrategy(AppSystem system) {
+//        this.system = AppSystem.getAppSystem();
+//    }
 
     @Override
     public void saveUser(User user) {
@@ -50,7 +50,7 @@ public class ArrayStrategy implements SaveStrategy {
 
     @Override
     public Member searchUser(String username) {
-        for (User user : system.retrieveUsers()) {
+        for (User user : users) {
             if (user.getUsername().equals(username)) {
                 return user;
             }
@@ -60,7 +60,7 @@ public class ArrayStrategy implements SaveStrategy {
 
     @Override
     public Member searchDriver(String username) {
-        for (Driver driver : system.retrieveDrivers()) {
+        for (Driver driver : drivers) {
             if (driver.getUsername().equals(username)) {
                 return driver;
             }
