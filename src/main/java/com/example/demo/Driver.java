@@ -78,9 +78,10 @@ public class Driver extends Member implements Observer {
     }
     @PostMapping("/drivers/add-fav/{area}")
     public void addFavArea(@PathVariable String area) {
-        favoriteAreas.add(area);
+        this.favoriteAreas.add(area);
+
     }
-    @GetMapping("/drivers/fav-areas")
+//    @GetMapping("/drivers/fav-areas")
     public ArrayList<String> getFavoriteAreas() {
         return favoriteAreas;
     }

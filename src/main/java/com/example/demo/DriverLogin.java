@@ -1,5 +1,10 @@
 package com.example.demo;
 
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
 public class DriverLogin extends Login {
 
     public DriverLogin(AppSystem system) {
@@ -7,7 +12,8 @@ public class DriverLogin extends Login {
     }
 
     @Override
-    public Driver login(String username, String password) {
+    @PostMapping("/driverlogin/{username}/{password}")
+    public Driver login( @PathVariable String username, @PathVariable String  password) {
         for (Driver driver : system.retrieveDrivers()) {
             if (driver.getUsername().equals(username) && driver.getPassword().equals(password)) {
                 if(driver.isSuspended()) {

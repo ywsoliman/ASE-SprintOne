@@ -1,5 +1,10 @@
 package com.example.demo;
 
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
 public class UserLogin extends Login {
 
     public UserLogin(AppSystem system) {
@@ -7,7 +12,8 @@ public class UserLogin extends Login {
     }
 
     @Override
-    public User login(String username, String password) {
+    @PostMapping("/userlogin/{username}/{password}")
+    public User login(@PathVariable String username,@PathVariable String password) {
         for (User user : system.retrieveUsers()) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 if(user.isSuspended()) {

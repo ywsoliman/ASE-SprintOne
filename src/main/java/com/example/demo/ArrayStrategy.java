@@ -7,19 +7,19 @@ import java.util.ArrayList;
 
 public class ArrayStrategy implements SaveStrategy {
 
-    AppSystem system;
+    AppSystem system ;
     ArrayList<User> users = new ArrayList<User>();
     ArrayList<Driver> drivers = new ArrayList<Driver>();
     ArrayList<Ride> rides = new ArrayList<Ride>();
     ArrayList<String> discountedAreas = new ArrayList<String>();
 
     public ArrayStrategy(AppSystem system) {
-        this.system = system;
+        this.system = AppSystem.getAppSystem();
     }
 
     @Override
     public void saveUser(User user) {
-        system.retrieveUsers().add(user);
+        users.add(user);
     }
 
     @Override

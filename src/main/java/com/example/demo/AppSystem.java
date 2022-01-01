@@ -9,9 +9,15 @@ import java.util.ArrayList;
 
 @RestController
 public class AppSystem {
+    SaveStrategy saveStrategy;
+    private AppSystem(){
+        saveStrategy=new ArrayStrategy(this) ;
+    }
+    private static  AppSystem appSystem = new AppSystem();
 
-    SaveStrategy saveStrategy = new ArrayStrategy(this);
-
+    public  static AppSystem getAppSystem(){
+        return appSystem;
+    }
     public void setSaveStrategy(SaveStrategy saveStrategy) {
         this.saveStrategy = saveStrategy;
     }

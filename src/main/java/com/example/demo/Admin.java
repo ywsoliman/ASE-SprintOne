@@ -13,7 +13,8 @@ public class Admin {
     }
 
     @PutMapping("/drivers/verify/{username}")
-    public void verifyDriver(@PathVariable String username) {
+    public void verifyDriver(@PathVariable String username)
+    {
         for (Driver driver : system.retrieveDrivers()) {
             if (driver.getUsername().equals(username))
                 driver.setVerified(true);
