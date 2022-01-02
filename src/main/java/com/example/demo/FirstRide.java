@@ -8,7 +8,7 @@ public class FirstRide extends Discount{
 
     @Override
     public double calculatePrice() {
-        if(concreteRide.getUser().getNumberOfRides() > 0){
+        if(concreteRide.getUser().getNumberOfRides() > 1){
             return ride.calculatePrice();
         }
 

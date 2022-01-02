@@ -131,7 +131,7 @@ public class Ride implements Observable, IRide{
 
         for(Driver driver : AppSystem.getAppSystem().retrieveDrivers()) {
 
-            if(driver.getFavoriteAreas().contains(source) && !driver.isSuspended() && driver.isVerified() /*&& driver.isAvailable()*/) {
+            if(driver.getFavoriteAreas().contains(source) && !driver.isSuspended() && driver.isVerified() && driver.isAvailable()) {
                 interestedDrivers.add(driver);
             }
         }

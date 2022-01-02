@@ -17,6 +17,7 @@ public class User extends Member {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     Ride ride = new Ride();
     int numberOfRides;
+    String birthDay;
 
     public User(){
         numberOfRides = 0;
@@ -26,6 +27,14 @@ public class User extends Member {
     }
     public User(User user) {
         super(user.getUsername(), user.getPassword(), user.getEmail(), user.getMobileNumber());
+    }
+
+    public String getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(String birthDay) {
+        this.birthDay = birthDay;
     }
 
     public int getNumberOfRides() {
@@ -66,6 +75,7 @@ public class User extends Member {
             if(user.getUsername().equals(username)){
                 for(Offer offer : user.getRide().getAllOffers()){
                     if (offer.getDriver().getUsername().equals(driverName)) {
+                        user.getRide().setBasePrice(offer.getPrice());
                         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                         Date date = new Date();
                         offer.setTimeAccepted(formatter.format(date));

@@ -7,6 +7,9 @@ public class UserBirthday extends Discount{
 
     @Override
     public double calculatePrice() {
-        return ride.calculatePrice() * 0.9;
+        if(concreteRide.getUser().getBirthDay().equals(concreteRide.getStarted().substring(0, 5))){
+            return ride.calculatePrice() * 0.9;
+        }
+        return ride.calculatePrice();
     }
 }
