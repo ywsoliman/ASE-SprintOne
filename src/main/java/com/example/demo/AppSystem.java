@@ -27,11 +27,14 @@ public class AppSystem {
     }
     @PostMapping("/add/user")
     public static void saveUser(@RequestBody User user) {
-        saveStrategy.saveUser(user);
+        User newUser = new User();
+        newUser = user;
+        saveStrategy.saveUser(newUser);
     }
     @PostMapping("/add/driver")
     public static void saveDriver(@RequestBody Driver driver) {
-        Driver newDriver = driver;
+        Driver newDriver = new Driver();
+        newDriver = driver;
         saveStrategy.saveDriver(newDriver);
     }
     //@GetMapping("/drivers/pending-registration")
@@ -52,6 +55,9 @@ public class AppSystem {
     }
     void addDiscountedArea(String destination) {
         saveStrategy.retrieveDiscountedAreas().add(destination);
+    }
+    public ArrayList<String> retrieveDiscountedAreasCopy(){
+        return saveStrategy.retrieveDiscountedAreasCopy();
     }
 
 

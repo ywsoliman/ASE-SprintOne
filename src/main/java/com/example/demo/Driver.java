@@ -19,14 +19,14 @@ public class Driver extends Member implements Observer {
     boolean verified;
     boolean available;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    Ride activeRide;
+    Ride activeRide = new Ride();
     double averageRating;
     ArrayList<String> favoriteAreas = new ArrayList<String>();
     ArrayList<Ride> nearbyRequests = new ArrayList<Ride>();
     HashMap<String, Double> userRatings = new HashMap<String, Double>();
 
     public Driver(){
-
+        this.available = true;
     }
     public Driver(String username, String password, String email, String mobileNumber, String nationalID, String drivingLicense) {
         super(username, password, email, mobileNumber);
@@ -100,23 +100,31 @@ public class Driver extends Member implements Observer {
     @PostMapping("/drivers/arrived-to-location/{username}")
     public void arrivedToLocation(@PathVariable String username){
         for(Driver driver : AppSystem.retrieveDrivers()) {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            Date date = new Date();
-            driver.getActiveRide().setStarted(formatter.format(date));
-            break;
+            if(driver.getUsername().equals(username)){
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                Date date = new Date();
+                driver.getActiveRide().setStarted(formatter.format(date));
+                break;
+            }
         }
     }
     @PostMapping("/drivers/arrived-to-destination/{username}")
     public void arrivedToDestination(@PathVariable String username){
         for(Driver driver : AppSystem.retrieveDrivers()) {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            Date date = new Date();
-            driver.getActiveRide().setEnded(formatter.format(date));
-            driver.setAvailable(true);
-            Ride newRide = driver.getActiveRide();
-            AppSystem.getAppSystem().retrieveRides().add(newRide);
-            //driver.setActiveRide(null);
-            break;
+            if(driver.getUsername().equals(username)){
+                driver.getActiveRide().getUser().setNumberOfRides(driver.getActiveRide().getUser().getNumberOfRides() + 1);
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                Date date = new Date();
+                driver.getActiveRide().setEnded(formatter.format(date));
+                driver.setAvailable(true);
+                Ride newRide = driver.getActiveRide();
+                IRide ride = new PublicHoliday(new TwoPassengers(new UserBirthday(new DiscountedAreas(new FirstRide(newRide, newRide), newRide), newRide), newRide), newRide);
+                newRide.setDiscountedPrice(ride.calculatePrice());
+                System.out.println(newRide.getDiscountedPrice());
+                AppSystem.getAppSystem().retrieveRides().add(newRide);
+                break;
+            }
+
         }
     }
 //    @GetMapping("/drivers/fav-areas")
@@ -134,7 +142,7 @@ public class Driver extends Member implements Observer {
                         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                         Date date = new Date();
                         offer.setTimeMade(formatter.format(date));
-                        ride.getUser().getOffers().add(offer);
+                        ride.getAllOffers().add(offer);
                         break;
                     }
                 }
