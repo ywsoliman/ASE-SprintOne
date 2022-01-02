@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.Map;
 
 @Service
-public class UserService {
+public class UserService implements IUserService {
 
 
     public void acceptOffer(String driverName, String username){

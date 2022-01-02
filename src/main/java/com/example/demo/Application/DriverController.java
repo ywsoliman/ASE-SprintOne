@@ -9,7 +9,7 @@ import java.util.HashMap;
 @RequestMapping(path = "/driver")
 public class DriverController {
 
-    private final DriverService driverService;
+    private final IDriverService driverService;
 
     @Autowired
     public DriverController(DriverService driverService) {

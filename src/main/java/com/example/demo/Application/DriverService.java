@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 @Service
-public class DriverService {
+public class DriverService implements IDriverService {
 
     public void addFavArea(String username, String area) {
         for(Driver driver : AppSystem.getAppSystem().retrieveDrivers()){

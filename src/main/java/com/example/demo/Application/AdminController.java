@@ -11,7 +11,7 @@ import java.util.ArrayList;
 @RequestMapping(path = "/admin")
 public class AdminController {
 
-    private final AdminService adminService;
+    private final IAdminService adminService;
 
     @Autowired
     public AdminController(AdminService adminService) {
@@ -25,7 +25,7 @@ public class AdminController {
 
     @PutMapping("/drivers/suspend/{username}")
     public void suspendDriver(@PathVariable String username) {
-        adminService.suspendUser(username);
+        adminService.suspendDriver(username);
     }
 
     @PutMapping("/users/suspend/{username}")

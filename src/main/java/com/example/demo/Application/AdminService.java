@@ -9,12 +9,11 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 @Service
-public class AdminService {
+public class AdminService implements IAdminService {
 
     AppSystem system = AppSystem.getAppSystem();
 
-    public void verifyDriver(String username)
-    {
+    public void verifyDriver(String username) {
         for (Driver driver : system.retrieveDrivers()) {
             if (driver.getUsername().equals(username))
                 driver.setVerified(true);

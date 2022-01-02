@@ -13,9 +13,9 @@ import java.util.ArrayList;
 @RestController
 public class AppSystem {
     static SaveStrategy saveStrategy;
-    private static  AppSystem appSystem;
+    private static AppSystem appSystem;
 
-    private AppSystem(){
+    private AppSystem() {
     }
 
     public  static AppSystem getAppSystem(){
