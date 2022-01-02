@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.Core;
 
 public interface Observable {
     public void subscribe(String source, String destination);

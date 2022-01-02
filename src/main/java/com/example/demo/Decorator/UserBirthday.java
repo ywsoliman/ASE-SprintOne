@@ -1,4 +1,6 @@
-package com.example.demo;
+package com.example.demo.Decorator;
+
+import com.example.demo.Core.Ride;
 
 public class UserBirthday extends Discount{
     public UserBirthday(IRide ride, Ride concreteRide) {

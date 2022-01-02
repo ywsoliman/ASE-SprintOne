@@ -1,33 +1,35 @@
-package com.example.demo;
+package com.example.demo.Core;
 
+import com.example.demo.Database.AppSystem;
+import com.example.demo.Decorator.IRide;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class Ride implements Observable, IRide{
+public class Ride implements Observable, IRide {
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     ArrayList<Driver> interestedDrivers = new ArrayList<Driver>();
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     ArrayList<Offer> allOffers = new ArrayList<Offer>();
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    Offer acceptedOffer;
+
+    private Offer acceptedOffer;
     private String started;
     private String ended;
-    User user;
-    String source;
-    String destination;
-    int numberOfPassengers;
-    static int counter = 0;
-    int ID;
-    double basePrice;
-    double discountedPrice;
+    private User user;
+    private String source;
+    private String destination;
+    private int numberOfPassengers;
+    private static int counter = 0;
+    private int ID;
+    private double basePrice;
+    private double discountedPrice;
 
-    Ride(){
+    public Ride() {
 
     }
-    Ride(User user, String source, String destination, int numberOfPassengers){
+    public Ride(User user, String source, String destination, int numberOfPassengers){
         counter++;
         this.user = user;
         this.source = source;
@@ -115,17 +117,6 @@ public class Ride implements Observable, IRide{
         return "Ride [ID=" + ID + "]";
     }
 
-//    public void showRideHitory() {
-//        //Offers
-//        for (Offer offer : allOffers) {
-//            System.out.println("Offer made at " + offer.getTimeMade() + " by " + offer.getDriver() + " with price " + offer.getPrice());
-//        }
-//        //User accepts offer
-//        System.out.println(user.getUsername() + " accepted offer at " + acceptedOffer.getTimeAccepted());
-//        //Captain arrived
-//        //User arrived
-//    }
-
     @Override
     public void subscribe(String source, String destination) {
 
@@ -138,15 +129,13 @@ public class Ride implements Observable, IRide{
     }
     @Override
     public void unsubscribe(Observer o) {
-
         interestedDrivers.remove((Driver) o);
     }
+
     @Override
     public void update() {
-        //ride = this;
 
         for (Driver driver : interestedDrivers) {
-
             driver.update(this);
         }
     }

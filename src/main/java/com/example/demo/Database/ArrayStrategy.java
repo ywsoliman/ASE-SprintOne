@@ -1,21 +1,31 @@
-package com.example.demo;
+package com.example.demo.Database;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import com.example.demo.Core.Ride;
+import com.example.demo.Core.User;
+import com.example.demo.Core.Driver;
+import com.example.demo.Core.Member;
 
 import java.util.ArrayList;
 
 public class ArrayStrategy implements SaveStrategy {
 
-    //AppSystem system ;
-    ArrayList<User> users = new ArrayList<User>();
-    ArrayList<Driver> drivers = new ArrayList<Driver>();
-    ArrayList<Ride> rides = new ArrayList<Ride>();
-    ArrayList<String> discountedAreas = new ArrayList<String>();
+    ArrayList<User> users;
+    ArrayList<Driver> drivers;
+    ArrayList<Ride> rides;
+    ArrayList<String> discountedAreas;
+    ArrayList<String> publicHolidays;
 
-//    public ArrayStrategy(AppSystem system) {
-//        this.system = AppSystem.getAppSystem();
-//    }
+    public ArrayStrategy() {
+        users = new ArrayList<User>();
+        drivers = new ArrayList<Driver>();
+        rides = new ArrayList<Ride>();
+        discountedAreas = new ArrayList<String>();
+        publicHolidays = new ArrayList<>();
+        publicHolidays.add("25/01");
+        publicHolidays.add("07/01");
+        publicHolidays.add("15/09");
+        publicHolidays.add("19/07");
+    }
 
     @Override
     public void saveUser(User user) {
@@ -36,7 +46,7 @@ public class ArrayStrategy implements SaveStrategy {
     public ArrayList<Driver> retrievePendingRegistrations() {
         ArrayList<Driver> pendingRegistrations = new ArrayList<Driver>();
         for(Driver driver : drivers) {
-            if(!driver.verified) {
+            if(!driver.isVerified()) {
                 pendingRegistrations.add(driver);
             }
         }
@@ -84,4 +94,8 @@ public class ArrayStrategy implements SaveStrategy {
         return discountedAreas;
     }
 
+    @Override
+    public ArrayList<String> retrievePublicHolidays() {
+        return publicHolidays;
+    }
 }

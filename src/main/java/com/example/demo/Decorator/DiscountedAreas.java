@@ -1,6 +1,9 @@
-package com.example.demo;
+package com.example.demo.Decorator;
 
-public class DiscountedAreas extends Discount{
+import com.example.demo.Core.Ride;
+import com.example.demo.Database.AppSystem;
+
+public class DiscountedAreas extends Discount {
     public DiscountedAreas(IRide ride, Ride concreteRide) {
         super(ride, concreteRide);
     }

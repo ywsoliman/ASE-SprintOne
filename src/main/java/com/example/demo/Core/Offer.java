@@ -1,9 +1,10 @@
-package com.example.demo;
+package com.example.demo.Core;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Offer {
+
     private String timeMade;
     private String timeAccepted;
     Driver driver;
@@ -44,7 +45,7 @@ public class Offer {
 
 
 
-    Offer(double price, Driver driver){
+    public Offer(double price, Driver driver){
         this.price = price;
         this.driver = driver;
         Date date = new Date();
