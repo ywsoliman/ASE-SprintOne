@@ -1,5 +1,8 @@
-package com.example.demo;
+package com.example.demo.Database;
 
+import com.example.demo.Core.Driver;
+import com.example.demo.Core.Ride;
+import com.example.demo.Core.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,17 +30,12 @@ public class AppSystem {
     }
     @PostMapping("/add/user")
     public static void saveUser(@RequestBody User user) {
-        User newUser = new User();
-        newUser = user;
-        saveStrategy.saveUser(newUser);
+        saveStrategy.saveUser(user);
     }
     @PostMapping("/add/driver")
     public static void saveDriver(@RequestBody Driver driver) {
-        Driver newDriver = new Driver();
-        newDriver = driver;
-        saveStrategy.saveDriver(newDriver);
+        saveStrategy.saveDriver(driver);
     }
-    //@GetMapping("/drivers/pending-registration")
     public ArrayList<Driver> retrievePendingRegistrations() {
         return saveStrategy.retrievePendingRegistrations();
     }
@@ -49,21 +47,18 @@ public class AppSystem {
     public static ArrayList<Driver> retrieveDrivers() {
         return saveStrategy.retrieveDrivers();
     }
-    //@GetMapping("/rides")
     public ArrayList<Ride> retrieveRides() {
         return saveStrategy.retrieveRides();
     }
-    void addDiscountedArea(String destination) {
+    public void addDiscountedArea(String destination) {
         saveStrategy.retrieveDiscountedAreas().add(destination);
     }
     public ArrayList<String> retrieveDiscountedAreasCopy(){
         return saveStrategy.retrieveDiscountedAreasCopy();
     }
 
+    public ArrayList<String> retrievePublicHolidays(){
+        return saveStrategy.retrievePublicHolidays();
+    }
 
-//    public static void main(String[] args) {
-//
-//        Menu menu = new Menu();
-//
-//    }
 }

@@ -1,4 +1,6 @@
-package com.example.demo;
+package com.example.demo.Decorator;
+
+import com.example.demo.Core.Ride;
 
 public class TwoPassengers extends Discount{
     public TwoPassengers(IRide ride, Ride concreteRide) {

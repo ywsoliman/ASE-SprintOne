@@ -1,11 +1,14 @@
-package com.example.demo;
+package com.example.demo.Database;
 
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
+import com.example.demo.Core.Ride;
+import com.example.demo.Core.User;
+import com.example.demo.Core.Driver;
+import com.example.demo.Core.Member;
 
 import java.util.ArrayList;
 
 public interface SaveStrategy {
+
     public void saveUser(User user);
     public void saveDriver(Driver driver);
     public ArrayList<Driver> retrieveDrivers();
@@ -16,4 +19,6 @@ public interface SaveStrategy {
     public ArrayList<Ride> retrieveRides();
     public ArrayList<String> retrieveDiscountedAreasCopy();
     public ArrayList<String> retrieveDiscountedAreas();
+    public ArrayList<String> retrievePublicHolidays();
+
 }

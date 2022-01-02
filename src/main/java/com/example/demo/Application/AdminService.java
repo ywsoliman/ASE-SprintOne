@@ -1,49 +1,50 @@
-package com.example.demo;
+package com.example.demo.Application;
 
-import org.springframework.web.bind.annotation.*;
+import com.example.demo.Core.Driver;
+import com.example.demo.Database.AppSystem;
+import com.example.demo.Core.Ride;
+import com.example.demo.Core.User;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
-@RestController
-public class Admin {
-    AppSystem system;
+@Service
+public class AdminService {
 
-    public Admin(AppSystem system) {
-        this.system = system;
-    }
+    AppSystem system = AppSystem.getAppSystem();
 
-    @PutMapping("/drivers/verify/{username}")
-    public void verifyDriver(@PathVariable String username)
+    public void verifyDriver(String username)
     {
         for (Driver driver : system.retrieveDrivers()) {
             if (driver.getUsername().equals(username))
                 driver.setVerified(true);
         }
     }
-    @PutMapping("/drivers/suspend/{username}")
-    public void suspendDriver(@PathVariable String username) {
+
+    public void suspendDriver(String username) {
         for (Driver driver : system.retrieveDrivers()) {
             if (driver.getUsername().equals(username))
                 driver.setSuspended(true);
         }
     }
-    @PutMapping("/users/suspend/{username}")
-    public void suspendUser(@PathVariable String username) {
+
+    public void suspendUser(String username) {
         for (User user : system.retrieveUsers()) {
             if (user.getUsername().equals(username))
                 user.setSuspended(true);
         }
     }
-    @GetMapping("/admin/pending-registration")
+
     public ArrayList<Driver> listPendingRegistrations() {
         return system.retrievePendingRegistrations();
     }
-    @GetMapping("/admin/listRides")
+
     public ArrayList<Ride> listRides() {
         return system.retrieveRides();
     }
-    @PostMapping("/admin/add-discounted-area/{destination}")
-    public void addDiscountedArea(@PathVariable String destination) {
+
+    public void addDiscountedArea(String destination) {
         system.addDiscountedArea(destination);
     }
+
 }
