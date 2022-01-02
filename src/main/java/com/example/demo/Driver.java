@@ -88,6 +88,7 @@ public class Driver extends Member implements Observer {
     public void setVerified(boolean verified) {
         this.verified = verified;
     }
+
     @PostMapping("/drivers/add-fav/{username}/{area}")
     public void addFavArea(@PathVariable String username, @PathVariable String area) {
         for(Driver driver : AppSystem.getAppSystem().retrieveDrivers()){
@@ -151,10 +152,16 @@ public class Driver extends Member implements Observer {
         }
     }
 
-    public void listUserRatings() {
-        for(HashMap.Entry<String, Double> entry : userRatings.entrySet()) {
-            System.out.println("User: " + entry.getKey() + " Rating:  " + entry.getValue());
+    @GetMapping("{driverUsername}/list-user-rating")
+    public HashMap<String, Double> listUserRatings(@PathVariable String driverUsername) {
+        for (Driver driver : AppSystem.getAppSystem().retrieveDrivers()) {
+
+            if (driver.getUsername().equals(driverUsername))
+                return driver.getUserRatings();
+
         }
+
+        return null;
     }
 
     @Override
