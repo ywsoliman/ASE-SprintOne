@@ -1,5 +1,7 @@
-package com.example.demo.Application;
+package com.example.demo;
 
+import com.example.demo.Application.AdminService;
+import com.example.demo.Application.IAdminService;
 import com.example.demo.Core.Driver;
 import com.example.demo.Core.Ride;
 import org.springframework.beans.factory.annotation.Autowired;

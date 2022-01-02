@@ -1,5 +1,7 @@
-package com.example.demo.Application;
+package com.example.demo;
 
+import com.example.demo.Application.IUserService;
+import com.example.demo.Application.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
