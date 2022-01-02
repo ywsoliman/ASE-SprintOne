@@ -1,15 +1,17 @@
 package com.example.demo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class Ride implements Observable{
+public class Ride implements Observable, IRide{
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     ArrayList<Driver> interestedDrivers = new ArrayList<Driver>();
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     ArrayList<Offer> allOffers = new ArrayList<Offer>();
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     Offer acceptedOffer;
     private String started;
     private String ended;
@@ -19,6 +21,8 @@ public class Ride implements Observable{
     int numberOfPassengers;
     static int counter = 0;
     int ID;
+    double basePrice;
+    double discountedPrice;
 
     Ride(){
 
@@ -30,6 +34,42 @@ public class Ride implements Observable{
         this.destination = destination;
         this.ID = counter;
         this.numberOfPassengers = numberOfPassengers;
+    }
+
+    public int getNumberOfPassengers() {
+        return numberOfPassengers;
+    }
+
+    public double getBasePrice() {
+        return basePrice;
+    }
+
+    public void setBasePrice(double basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    public double getDiscountedPrice() {
+        return discountedPrice;
+    }
+
+    public void setDiscountedPrice(double discountedPrice) {
+        this.discountedPrice = discountedPrice;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
 
     public String getStarted() {
@@ -53,7 +93,7 @@ public class Ride implements Observable{
     }
 
     public ArrayList<Offer> getAllOffers() {
-        return allOffers;
+        return this.allOffers;
     }
 
     public User getUser() {
@@ -109,5 +149,10 @@ public class Ride implements Observable{
 
             driver.update(this);
         }
+    }
+
+    @Override
+    public double calculatePrice() {
+        return acceptedOffer.getPrice();
     }
 }

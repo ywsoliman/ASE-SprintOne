@@ -3,6 +3,7 @@ package com.example.demo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
@@ -15,16 +16,27 @@ public class User extends Member {
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     Ride ride = new Ride();
+    int numberOfRides;
 
     public User(){
-
+        numberOfRides = 0;
     }
     public User(String username, String password, String email, String mobileNumber) {
         super(username, password, email, mobileNumber);
     }
+    public User(User user) {
+        super(user.getUsername(), user.getPassword(), user.getEmail(), user.getMobileNumber());
+    }
 
+    public int getNumberOfRides() {
+        return numberOfRides;
+    }
 
-//    public void acceptOffer(Offer offer) {
+    public void setNumberOfRides(int numberOfRides) {
+        this.numberOfRides = numberOfRides;
+    }
+
+    //    public void acceptOffer(Offer offer) {
 //        Date date = new Date();
 //        offer.setTimeAccepted(formatter.format(date));
 //        offer.getDriver().setAvailable(false);
@@ -77,7 +89,8 @@ public class User extends Member {
     public void setRide(Ride ride) {
         this.ride = ride;
     }
-    @GetMapping("/users/offers")
+    @JsonIgnore
+    //@GetMapping("/users/offers")
     public ArrayList<Offer> getOffers() {
         return ride.allOffers;
     }
@@ -96,13 +109,16 @@ public class User extends Member {
     }
     @PostMapping("/request-ride/{source}/{destination}/{numberOfPassengers}/{username}")
     public void requestRide(@PathVariable String source, @PathVariable String destination, @PathVariable int numberOfPassengers, @PathVariable String username) {
+        Ride newRide = new Ride();
         for(User user : AppSystem.getAppSystem().retrieveUsers()){
             if(user.getUsername().equals(username)){
-                Ride ride = new Ride(user, source, destination, numberOfPassengers);
+                newRide = new Ride(user, source, destination, numberOfPassengers);
+
+                user.setRide(newRide);
+
                 //AppSystem.getAppSystem().retrieveRides().add(ride);
-                ride.subscribe(source, destination);
-                ride.update();
-                this.ride = ride;
+                newRide.subscribe(source, destination);
+                newRide.update();
                 break;
             }
         }
