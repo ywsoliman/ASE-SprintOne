@@ -4,7 +4,7 @@ Simulation of Uber application which users and drivers can register and each can
 ## Project Overview:
 In the current days the transportation technologies are growing rapidly. Therefore, in this project we are going to develop an application that helps users to communicate with car drivers to transport users to any area.
 
-The project was developed w.r.t SOLID Principles and Design Patterns.
+The project was developed w.r.t SOLID Principles and Design Patterns such as Singleton, Observer and Decorator.
 
 ## Project Requirments:
 1. The user should be able to register to the system. The user should provide username, mobile number, email (optional), and password. If the user is going to register to the system as a driver so the driving license and national id should be provided. The user should be able to login into the system once the registration is completed. If the user registers as a driver, so the user should be able to login into the system once the admin user verify the registration
